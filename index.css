@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: #1D1D1D;
+    color: white;
+}
+
+nav h1 {
+    font-size: 20px;
+}
+
+.navbar-left ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    margin-left: 12px;
+}
+
+.navbar-left {
+    display: flex;
+}
+
+.navbar-left ul li {
+    margin-left: 10px;
+}
+
+.navbar-left ul li button{
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+#options {
+    height: 82px;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #C8C8C8;
+}
+
+.divOptions {
+    border-right: 1px solid #C8C8C8;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    padding: 14px;
+}
+
+.newDotDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.newDotDiv p {
+    font-size: 13.5px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.newDotDiv input {
+    width: 52px;
+    height: 24px;
+    outline: none;
+    font-size: 13.5px;
+    margin-top: 10px;
+}
+
+.btn {
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 13.5px;
+}
+
+.start {
+    background-color: #86D682;
+}
+
+.delete {
+    background-color: #FF6464;
+}
+
+.disabled {
+    background-color: #B6B6B6;
+}

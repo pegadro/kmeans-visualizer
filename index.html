@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <nav>
+        <h1>Kmeans visualizer</h1>
+        <div class="navbar-left">
+            <ul>
+                <li>
+                    
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div>
+        <div id="options">
+            <div class="divOptions">
+                <button class="btn start" id="start">Start visualization</button>
+            </div>
+            
+            <div class="divOptions">
+                <button class="btn delete disabled" id="delete" disabled>Delete all dots</button>
+            </div>
+
+            <div class="divOptions newDotDiv">
+                <p>Add a new dot</p>
+                <input type="text" placeholder="5, 2" id="dotInput">
+            </div>
+
+        </div>
+        <canvas id="myChart" width="400" height="155"></canvas>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+    <script type="module" src="./index.js"></script>
+</body>
+</html>
