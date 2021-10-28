@@ -10,21 +10,27 @@ export class KMeans {
         this.n_centroids = n_centroids;
         this.data_range_x = data_range_x;
         this.data_range_y = data_range_y;
-        this.centroids = this.create_centroids();
-        //this.centroids = [[15.34, 0.71],[0.15, 7.95],[24.47, 12.68]]
+        this._centroids_history = [];
 
         this.previous_centroids = [];
         this.current_centroids = [];
+
+        this.grouped_distances = {};
+
+        this.centroids = this.create_centroids();
+        //this.centroids = [[15.34, 0.71],[0.15, 7.95],[24.47, 12.68]]
     }
 
     clustering() {
         if (JSON.stringify(this.current_centroids) == JSON.stringify(this.previous_centroids)) {
-            return this.get_grouped_distances(this.centroids, this.dots);
+            this.grouped_distances = this.get_grouped_distances(this.current_centroids, this.dots);
         } else if (JSON.stringify(this.current_centroids) != JSON.stringify(this.previous_centroids)) {
             let grouped_distances = this.get_grouped_distances(
-                this.centroids, this.dots);
+                this.current_centroids, this.dots);
 
-            this.previous_centroids = this.centroids;
+            this.previous_centroids = this.current_centroids;
+            
+            this._centroids_history.push(this.previous_centroids);
             this.current_centroids = this.calc_new_centroids(grouped_distances);
 
             this.clustering();
@@ -81,7 +87,7 @@ export class KMeans {
             let new_centroid = [average_dot_x, average_dot_y];
             new_centroids.push(new_centroid);
         }
-
+        this._centroids_history.push(new_centroids);
         return new_centroids;
     }
 
@@ -99,8 +105,10 @@ export class KMeans {
         }
         this.current_centroids = centroids;
         return centroids;
-
-        
+    }
+    
+    get centroids_history() {
+        return this._centroids_history;
     }
 }
 
@@ -113,9 +121,11 @@ export class KMeans {
 //     data_range_y: 30,
 // });
 
-// let grouped_distances = kmeans.clustering();
+// console.log(kmeans);
 
-// console.log(grouped_distances);
+// kmeans.clustering();
+
+// console.log(kmeans);
 
 //[(30, 24), (18, 0), (0, 8), (12, 17), (14, 8), (27, 16), (4, 16), (21, 15), (10, 12), (3, 0), (10, 22), (6, 3), (27, 17), (6, 24), (14, 5), (17, 17), (3, 19), (30, 3), (20, 17), (24, 22), (13, 20), (23, 24), (24, 10), (14, 21), (1, 30), (29, 30), (6, 15), (2, 20), (17, 12), (6, 4), (13, 14), (6, 1), (21, 5), (5, 26), (24, 5), (4, 21), (30, 7), (18, 21), (6, 10), (16, 20), (7, 29), (3, 0), (5, 8), (21, 1), (16, 22), (7, 19), (6, 21), (10, 12), (18, 20), (29, 10), (16, 6), (7, 6), (3, 11), (4, 13), (2, 24), (2, 6), (28, 27), (8, 28), (2, 8), (30, 26), (0, 25), (17, 14), (20, 23), (1, 4), (16, 21), (6, 19), (30, 14), (26, 15), (25, 17), (0, 27), (6, 11), (5, 1), (14, 10), (9, 27), (6, 12), (24, 23), (25, 5), (27, 11), (27, 22), (18, 2), (12, 5), (22, 12), (13, 3), (17, 24), (19, 28), (17, 4), (1, 10), (13, 12), (3, 27), (3, 0), (21, 28), (5, 15), (21, 13), (21, 27), (26, 4), (4, 12), (19, 12), (19, 15), (13, 6), (20, 11)]
 

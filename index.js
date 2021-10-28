@@ -29,11 +29,17 @@ let myChart = new Chart(ctx, {
 });
 
 let grouped_distances = {};
+let n_dots = 0;
+let n_centroids = 0;
 
 let btnStart = document.getElementById("start");
 let btnDelete = document.getElementById("delete");
 
 let dotInput = document.getElementById("dotInput");
+
+let btnSetUp = document.getElementById("btnSetUp");
+let dotsInput = document.getElementById("n_dots");
+let centroidsInput = document.getElementById("n_centroids");
 
 let colorsCentroids = {};
 
@@ -45,6 +51,8 @@ btnStart.addEventListener('click', () => {
 btnDelete.addEventListener('click', () => {
     clean();
     disabledBtnDelete(true);
+    disabledInputDot(true);
+    disabledBtnStart(true);
 });
 
 dotInput.addEventListener('keyup', (e) => {
@@ -55,22 +63,44 @@ dotInput.addEventListener('keyup', (e) => {
         addNewDot(Number(dot[0]), Number(dot[1]));
 
         dotInput.value = "";
+    }
+});
 
+btnSetUp.addEventListener('click', () => {
+    if (dotsInput.value.length > 0 && centroidsInput.value.length > 0) {
+        setUpConfig();
+    }
+});
+
+centroidsInput.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+        if (dotsInput.value.length > 0 && centroidsInput.value.length > 0) {
+            setUpConfig();
+        }
     }
 });
 
 function start() {
-    let dots = generateDots(3000);
+    let dots = generateDots(n_dots);
     let kmeans = new KMeans({
         dots,
-        n_centroids: 5,
+        n_centroids: n_centroids,
         data_range_x: 50,
         data_range_y: 50,
     })
 
-    grouped_distances = kmeans.clustering();
+    kmeans.clustering();
+
+    grouped_distances = kmeans.grouped_distances;
+    
+    
+    console.log(kmeans.centroids_history);
+    console.log(grouped_distances);
+
     draw(grouped_distances);
+    
     disabledBtnDelete(false);
+    disabledInputDot(false);
 }
 
 function draw(grouped_distances) {
@@ -88,9 +118,10 @@ function draw(grouped_distances) {
             }
             setTimeout(() => {
                 addData(myChart, data, `#${colorSet}`);
-            }, 10);
+            }, 1);
             
         }
+        disabledBtnStart(true);
     }
 }
 
@@ -100,7 +131,7 @@ function clean() {
         for (let i=0; i<set.length; i++) {
             setTimeout(() => {
                 cleanData(myChart);    
-            }, 10);
+            }, 1);
         }
     }
 }
@@ -120,6 +151,13 @@ function cleanData(chart) {
         dataset.backgroundColor.pop();
     });
     chart.update();
+}
+
+function setUpConfig() {
+    n_dots = Number(dotsInput.value);
+    n_centroids = Number(centroidsInput.value);
+
+    disabledBtnStart(false);
 }
 
 function generateDots(n_dots) {
@@ -142,6 +180,24 @@ function disabledBtnDelete(disabled) {
         btnDelete.className = "btn delete disabled";
     }
     
+}
+
+function disabledInputDot(disabled) {
+    if (disabled == false) {
+        dotInput.disabled = false;
+    } else {
+        dotInput.disabled = true;
+    }
+}
+
+function disabledBtnStart(disabled) {
+    if (disabled == false) {
+        btnStart.disabled = false;
+        btnStart.className = "btn start";
+    } else {
+        btnStart.disabled = true;
+        btnStart.className = "btn start disabled";
+    }
 }
 
 function addNewDot(x, y) {

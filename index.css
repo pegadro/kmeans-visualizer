@@ -75,6 +75,37 @@ nav h1 {
     margin-top: 10px;
 }
 
+.configuration {
+    display: flex;
+    flex-direction: column;
+}
+
+.configuration p {
+    font-size: 13.5px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.divInputsConfig {
+    margin-top: 10px;
+}
+
+.inputConfig {
+    width: 100px;
+    height: 24px;
+    outline: none;
+    font-size: 13.5px;
+}
+
+#btnSetUp { 
+    height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    background-color: #d7dadd;
+}
+
 .btn {
     cursor: pointer;
     font-weight: bold;

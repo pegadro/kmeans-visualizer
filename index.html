@@ -22,16 +22,25 @@
     <div>
         <div id="options">
             <div class="divOptions">
-                <button class="btn start" id="start">Start visualization</button>
+                <button class="btn start disabled" id="start" disabled>Start visualization</button>
             </div>
             
             <div class="divOptions">
                 <button class="btn delete disabled" id="delete" disabled>Delete all dots</button>
             </div>
 
+            <div class="divOptions configuration">
+                <p>Configuration</p>
+                <div class="divInputsConfig">
+                    <input type="number" placeholder="# of dots" id="n_dots" class="inputConfig"/>
+                    <input type="number" placeholder="# of centroids" id="n_centroids" class="inputConfig"/>
+                    <button id="btnSetUp">Set up</button>
+                </div>
+            </div>
+
             <div class="divOptions newDotDiv">
                 <p>Add a new dot</p>
-                <input type="text" placeholder="5, 2" id="dotInput">
+                <input type="text" placeholder="5, 2" id="dotInput" disabled>
             </div>
 
         </div>
