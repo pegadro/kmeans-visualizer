@@ -40,6 +40,11 @@ nav h1 {
     border-radius: 8px;
 }
 
+#chart {
+    width: 75%;
+    height: 600px;
+}
+
 #options {
     height: 82px;
     display: flex;
@@ -50,7 +55,6 @@ nav h1 {
 .divOptions {
     border-right: 1px solid #C8C8C8;
     display: flex;
-
     justify-content: center;
     align-items: center;
     padding: 14px;
@@ -75,26 +79,17 @@ nav h1 {
     margin-top: 10px;
 }
 
-.configuration {
-    display: flex;
-    flex-direction: column;
-}
-
-.configuration p {
-    font-size: 13.5px;
-    font-weight: bold;
-    margin: 0;
-}
-
-.divInputsConfig {
-    margin-top: 10px;
-}
 
 .inputConfig {
-    width: 100px;
+    width: 85%;
     height: 24px;
     outline: none;
     font-size: 13.5px;
+    margin-bottom: 8px;
+    align-self: center;
+    border-radius: 8px;
+    border: 1px solid #C8C8C8;
+    padding: 4px;
 }
 
 #btnSetUp { 
@@ -104,6 +99,10 @@ nav h1 {
     border-radius: 8px;
     border: none;
     background-color: #d7dadd;
+    margin-top: 12px;
+    width: 88%;
+    align-self: center;
+    padding: 4px
 }
 
 .btn {
@@ -126,4 +125,28 @@ nav h1 {
 
 .disabled {
     background-color: #B6B6B6;
+}
+
+#config {
+    border: 1px solid #C8C8C8;
+    position: absolute;
+    right: 0;
+    top: 142px;
+    width: 23%;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    border-bottom-left-radius: 8px;
+}
+
+.divInputsConfig {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.divInputsConfig label {
+    text-align: center;
+    font-size: 14.5px;
+    margin-bottom: 6px;
 }

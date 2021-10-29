@@ -2,6 +2,13 @@
 let ctx = document.getElementById("myChart");
 import { KMeans } from './kmeans.js';
 
+
+let grouped_distances = {};
+let n_dots = 0;
+let n_centroids = 0;
+let range_x = 0;
+let range_y = 0;
+
 let myChart = new Chart(ctx, {
     type: 'bubble',
     data: {
@@ -14,10 +21,10 @@ let myChart = new Chart(ctx, {
     options: {
         scales: {
             y: {
-                suggestedMax: 30
+                suggestedMax: range_y
             },
             x: {
-                suggestedMax: 30
+                suggestedMax: range_x
             }
         },
         plugins: {
@@ -28,18 +35,17 @@ let myChart = new Chart(ctx, {
     },
 });
 
-let grouped_distances = {};
-let n_dots = 0;
-let n_centroids = 0;
-
 let btnStart = document.getElementById("start");
 let btnDelete = document.getElementById("delete");
 
 let dotInput = document.getElementById("dotInput");
 
-let btnSetUp = document.getElementById("btnSetUp");
+
 let dotsInput = document.getElementById("n_dots");
 let centroidsInput = document.getElementById("n_centroids");
+let rangexInput = document.getElementById("range_x");
+let rangeyInput = document.getElementById("range_y");
+let btnSetUp = document.getElementById("btnSetUp");
 
 let colorsCentroids = {};
 
@@ -72,7 +78,7 @@ btnSetUp.addEventListener('click', () => {
     }
 });
 
-centroidsInput.addEventListener('keyup', (e) => {
+rangeyInput.addEventListener('keyup', (e) => {
     if (e.key === 'Enter' || e.keyCode === 13) {
         if (dotsInput.value.length > 0 && centroidsInput.value.length > 0) {
             setUpConfig();
@@ -85,8 +91,8 @@ function start() {
     let kmeans = new KMeans({
         dots,
         n_centroids: n_centroids,
-        data_range_x: 50,
-        data_range_y: 50,
+        data_range_x: range_x,
+        data_range_y: range_y,
     })
 
     kmeans.clustering();
@@ -157,14 +163,17 @@ function setUpConfig() {
     n_dots = Number(dotsInput.value);
     n_centroids = Number(centroidsInput.value);
 
+    range_x = Number(rangexInput.value);
+    range_y = Number(rangeyInput.value);
+
     disabledBtnStart(false);
 }
 
 function generateDots(n_dots) {
     let dots = []
     for (let i = 0; i < n_dots; i++) {
-        let x = Math.random() * (50);
-        let y = Math.random() * (50);
+        let x = Math.random() * (range_x);
+        let y = Math.random() * (range_y);
         let dot = [Number(x.toFixed(2)), Number(y.toFixed(2))];
         dots.push(dot);
     }
