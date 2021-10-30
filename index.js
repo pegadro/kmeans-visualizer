@@ -15,8 +15,9 @@ let myChart = new Chart(ctx, {
         datasets: [{
             data: [],
             backgroundColor: [],
-            radius: 5,
-            pointStyle: []
+            radius: [],
+            pointStyle: [],
+            borderColor: []
         }]
     },
     options: {
@@ -40,7 +41,6 @@ let btnStart = document.getElementById("start");
 let btnDelete = document.getElementById("delete");
 
 let dotInput = document.getElementById("dotInput");
-
 
 let dotsInput = document.getElementById("n_dots");
 let centroidsInput = document.getElementById("n_centroids");
@@ -101,9 +101,8 @@ function start() {
 
     grouped_distances = kmeans.grouped_distances;
     draw_centroids(kmeans.centroids_history);
-    
     draw(grouped_distances);
-    
+
     disabledBtnDelete(false);
     disabledInputDot(false);
 }
@@ -111,7 +110,21 @@ function start() {
 function draw(grouped_distances) {
     for (const dot in grouped_distances) {
         let set = grouped_distances[dot];
-        let colorSet = Math.floor(Math.random()*16777215).toString(16);
+        //let colorSet = Math.floor(Math.random()*16777215).toString(16);
+
+        let colorSet = "";
+
+        let centroid = dot.split(',');
+        let centroidArray = [Number(centroid[0]), Number(centroid[1])];
+
+        for (let i=0; i < colorProvicionalCentroids.length; i++) {
+            let centroids_history = colorProvicionalCentroids[i][0];
+            for (let j=0; j < centroids_history.length; j++) {
+                if (JSON.stringify(centroids_history[j]) == JSON.stringify(centroidArray)) {
+                    colorSet = colorProvicionalCentroids[i][1];
+                }
+            }
+        } 
 
         addNewColor(colorSet, dot);
 
@@ -122,10 +135,8 @@ function draw(grouped_distances) {
                 y: Number(array[1])
             }
             setTimeout(() => {
-                addData(myChart, data, `#${colorSet}`, "circle");    
+                addData(myChart, data, `${colorSet}`, "circle", 5);    
             }, 1);
-            
-            
         }
         disabledBtnStart(true);
     }
@@ -152,6 +163,8 @@ function draw_centroids(centroids_history) {
         colorProvicionalCentroids.push(arrayConfig);
     }
 
+    console.log(colorProvicionalCentroids);
+
     for (let i=0; i < centroids_history.length; i++) {
         for (let j=0; j < centroids_history[i].length; j++) {
             let centroid = centroids_history[i][j];
@@ -167,42 +180,44 @@ function draw_centroids(centroids_history) {
                 x: centroid[0],
                 y: centroid[1]
             }
-            addData(myChart, data, color, "rectRot");
+
+            if ( centroids_history.indexOf(centroids_history[i]) == centroids_history.length - 1) {
+                addData(myChart, data, color, "rect", 7);
+            }
             
+            addData(myChart, data, color, "crossRot", 5);
         }
     }
-
-    cleanData(myChart);
 }
 
 function clean() {
-    for (const dot in grouped_distances) {
-        let set = grouped_distances[dot];
-        for (let i=0; i<set.length; i++) {
-            setTimeout(() => {
-                cleanData(myChart);    
-            }, 1);
-        }
-    }
+    colorsCentroids = {};
+    colorProvicionalCentroids = [];
+    setTimeout(() => {
+        cleanData(myChart);    
+    }, 1);   
 }
 
-function addData(chart, data, color, style) {
+function addData(chart, data, color, style, radius) {
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
         dataset.backgroundColor.push(color);
         dataset.pointStyle.push(style);
+        dataset.radius.push(radius);
+        dataset.borderColor.push(color);
     });
     chart.update();
 }
 
 function cleanData(chart) {
-    chart.data.labels.pop();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-        dataset.backgroundColor.pop();
-        
+    myChart.data.datasets.forEach((dataset) => {
+        dataset.data = [];
+        dataset.backgroundColor = [];
+        dataset.pointStyle = [];
+        dataset.radius = [];
+        dataset.borderColor = [];
     });
-    chart.update();
+    myChart.update()
 }
 
 function setUpConfig() {
@@ -283,7 +298,7 @@ function addNewDot(x, y) {
     for (const centroid in colorsCentroids) {
         let centroidArray = centroid.split(',');
         if (nearest_centroid[0] == Number(centroidArray[0]) && nearest_centroid[1] == Number(centroidArray[1])) {
-            color = "#" + colorsCentroids[centroid];
+            color = colorsCentroids[centroid];
         }
     }
 
@@ -292,7 +307,7 @@ function addNewDot(x, y) {
         y: y,
     }
 
-    addData(myChart, data, color, "circle");
+    addData(myChart, data, color, "circle", 5);
 }
 
 function addNewColor(color, centroid) {
