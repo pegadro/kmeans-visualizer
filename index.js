@@ -10,12 +10,13 @@ let range_x = 0;
 let range_y = 0;
 
 let myChart = new Chart(ctx, {
-    type: 'bubble',
+    type: 'scatter',
     data: {
         datasets: [{
             data: [],
             backgroundColor: [],
-            radius: 5
+            radius: 5,
+            pointStyle: []
         }]
     },
     options: {
@@ -48,6 +49,7 @@ let rangeyInput = document.getElementById("range_y");
 let btnSetUp = document.getElementById("btnSetUp");
 
 let colorsCentroids = {};
+let colorProvicionalCentroids = [];
 
 btnStart.addEventListener('click', () => {
     btnDelete.disabled = true;
@@ -98,12 +100,9 @@ function start() {
     kmeans.clustering();
 
     grouped_distances = kmeans.grouped_distances;
+    draw_centroids(kmeans.centroids_history);
     
-    
-    console.log(kmeans.centroids_history);
-    console.log(grouped_distances);
-
-    draw(grouped_distances);
+    //draw(grouped_distances);
     
     disabledBtnDelete(false);
     disabledInputDot(false);
@@ -123,12 +122,59 @@ function draw(grouped_distances) {
                 y: Number(array[1])
             }
             setTimeout(() => {
-                addData(myChart, data, `#${colorSet}`);
+                addData(myChart, data, `#${colorSet}`);    
             }, 1);
+            
             
         }
         disabledBtnStart(true);
     }
+}
+
+function draw_centroids(centroids_history) {
+    let arrayOfHistory = [];
+
+    for (let i=0; i < centroids_history[0].length; i++) {
+        arrayOfHistory.push([]);
+    }
+
+    for (let i=0; i < centroids_history.length; i++) {
+        for (let j=0; j < centroids_history[i].length; j++) {
+            let index = centroids_history[i].indexOf(centroids_history[i][j]);
+            arrayOfHistory[index].push(centroids_history[i][j]);
+        }
+    }
+
+    for (let i=0; i < arrayOfHistory.length; i++) {
+        let arrayOfCentroids = arrayOfHistory[i];
+        let colorCentroid = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+        let arrayConfig = [arrayOfCentroids, colorCentroid];
+        colorProvicionalCentroids.push(arrayConfig);
+    }
+
+    console.log(grouped_distances);
+
+    for (let i=0; i < centroids_history.length; i++) {
+        for (let j=0; j < centroids_history[i].length; j++) {
+            let centroid = centroids_history[i][j];
+            let color = "";
+
+            for (let c=0; c < colorProvicionalCentroids.length; c++) {
+                if (colorProvicionalCentroids[c][0].indexOf(centroids_history[i][j]) != -1) {
+                    color = colorProvicionalCentroids[c][1];
+                }
+            }   
+
+            let data = {
+                x: centroid[0],
+                y: centroid[1]
+            }
+            addData(myChart, data, color);
+            
+        }
+    }
+
+    cleanData(myChart);
 }
 
 function clean() {
@@ -146,6 +192,7 @@ function addData(chart, data, color) {
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
         dataset.backgroundColor.push(color);
+        dataset.pointStyle.push("rect");
     });
     chart.update();
 }
@@ -155,6 +202,7 @@ function cleanData(chart) {
     chart.data.datasets.forEach((dataset) => {
         dataset.data.pop();
         dataset.backgroundColor.pop();
+        
     });
     chart.update();
 }
