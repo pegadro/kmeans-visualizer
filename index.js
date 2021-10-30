@@ -102,7 +102,7 @@ function start() {
     grouped_distances = kmeans.grouped_distances;
     draw_centroids(kmeans.centroids_history);
     
-    //draw(grouped_distances);
+    draw(grouped_distances);
     
     disabledBtnDelete(false);
     disabledInputDot(false);
@@ -122,7 +122,7 @@ function draw(grouped_distances) {
                 y: Number(array[1])
             }
             setTimeout(() => {
-                addData(myChart, data, `#${colorSet}`);    
+                addData(myChart, data, `#${colorSet}`, "circle");    
             }, 1);
             
             
@@ -152,8 +152,6 @@ function draw_centroids(centroids_history) {
         colorProvicionalCentroids.push(arrayConfig);
     }
 
-    console.log(grouped_distances);
-
     for (let i=0; i < centroids_history.length; i++) {
         for (let j=0; j < centroids_history[i].length; j++) {
             let centroid = centroids_history[i][j];
@@ -169,7 +167,7 @@ function draw_centroids(centroids_history) {
                 x: centroid[0],
                 y: centroid[1]
             }
-            addData(myChart, data, color);
+            addData(myChart, data, color, "rectRot");
             
         }
     }
@@ -188,11 +186,11 @@ function clean() {
     }
 }
 
-function addData(chart, data, color) {
+function addData(chart, data, color, style) {
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
         dataset.backgroundColor.push(color);
-        dataset.pointStyle.push("rect");
+        dataset.pointStyle.push(style);
     });
     chart.update();
 }
@@ -294,7 +292,7 @@ function addNewDot(x, y) {
         y: y,
     }
 
-    addData(myChart, data, color);
+    addData(myChart, data, color, "circle");
 }
 
 function addNewColor(color, centroid) {
