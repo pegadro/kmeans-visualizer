@@ -65,10 +65,34 @@
                 <input type="text" placeholder="5, 2" id="dotInput" disabled>
             </div>
 
-            <div class="divOptions proccessDiv">
-                <p>Proccess</p>
-                <p>Recalc centroids</p>
+            <div class="divOptions symbology">
+                <p>Symbology</p>
+                <div class="symbologyContainImg">
+                    <img src="./public/circle.png" alt="dot" class="icon"/>
+                    <p class="infoSim">Dot: Represents a single piece of data</p>
+                </div>
+
+                <div class="symbologyContainImg">
+                    <img src="./public/cross.png" alt="dot" class="icon"/>
+                    <p class="infoSim">Cross: Represents the path that a centroid traveled</p>
+                </div>
+
+                <div class="symbologyContainImg">
+                    <img src="./public/square.png" alt="dot" class="icon"/>
+                    <p class="infoSim">Square: Represents the final position of the centroids</p>
+                </div>
             </div>
+
+            <div class="divOptions information">
+                <p>Information</p>
+                <div class="info">
+                    <p id="pN_dots">Number of dots: 0</p>
+                    <p id="pN_centroids">Number of centroids: 0</p>
+                    <p id="pRange_x">Range of data in x: 0</p>
+                    <p id="pRange_y">Range of data in y: 0</p>
+                </div>
+            </div>
+
         </div>
         <div id="config">
             <h2>Configuration</h2>
@@ -78,7 +102,7 @@
                 <input type="number" placeholder="# of dots" id="n_dots" class="inputConfig" value="100"/>
 
                 <label for="">Number of centroids</label>
-                <input type="number" placeholder="# of centroids" id="n_centroids" class="inputConfig" value="3"/>
+                <input type="number" placeholder="# of centroids" id="n_centroids" class="inputConfig" value="4"/>
 
                 <label for="">Range of data in x</label>
                 <input type="number" placeholder="Range x" id="range_x" class="inputConfig" value="40"/>

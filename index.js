@@ -48,6 +48,11 @@ let rangexInput = document.getElementById("range_x");
 let rangeyInput = document.getElementById("range_y");
 let btnSetUp = document.getElementById("btnSetUp");
 
+let pN_dots = document.getElementById("pN_dots");
+let pN_centroids = document.getElementById("pN_centroids");
+let pRange_x = document.getElementById("pRange_x");
+let pRange_y = document.getElementById("pRange_y");
+
 let colorsCentroids = {};
 let colorProvicionalCentroids = [];
 
@@ -96,13 +101,13 @@ function start() {
         data_range_x: range_x,
         data_range_y: range_y,
     })
-
     kmeans.clustering();
 
     grouped_distances = kmeans.grouped_distances;
+
     draw_centroids(kmeans.centroids_history);
     draw(grouped_distances);
-
+    
     disabledBtnDelete(false);
     disabledInputDot(false);
 }
@@ -134,8 +139,9 @@ function draw(grouped_distances) {
                 x: Number(array[0]),
                 y: Number(array[1])
             }
+
             setTimeout(() => {
-                addData(myChart, data, `${colorSet}`, "circle", 5);    
+                addData(myChart, data, `${colorSet}`, "circle", 4);    
             }, 1);
         }
         disabledBtnStart(true);
@@ -185,7 +191,7 @@ function draw_centroids(centroids_history) {
                 addData(myChart, data, color, "rect", 7);
             }
             
-            addData(myChart, data, color, "crossRot", 5);
+            addData(myChart, data, color, "crossRot", 4);
         }
     }
 }
@@ -193,9 +199,8 @@ function draw_centroids(centroids_history) {
 function clean() {
     colorsCentroids = {};
     colorProvicionalCentroids = [];
-    setTimeout(() => {
-        cleanData(myChart);    
-    }, 1);   
+    cleanData(myChart);
+    updateInformationP(0, 0, 0, 0);
 }
 
 function addData(chart, data, color, style, radius) {
@@ -210,7 +215,7 @@ function addData(chart, data, color, style, radius) {
 }
 
 function cleanData(chart) {
-    myChart.data.datasets.forEach((dataset) => {
+    chart.data.datasets.forEach((dataset) => {
         dataset.data = [];
         dataset.backgroundColor = [];
         dataset.pointStyle = [];
@@ -226,6 +231,13 @@ function setUpConfig() {
 
     range_x = Number(rangexInput.value);
     range_y = Number(rangeyInput.value);
+
+    updateInformationP(n_dots, n_centroids, range_x, range_y);
+
+    dotsInput.value = "";
+    centroidsInput.value = "";
+    rangexInput.value = "";
+    rangeyInput.value = "";
 
     disabledBtnStart(false);
 }
@@ -307,10 +319,20 @@ function addNewDot(x, y) {
         y: y,
     }
 
-    addData(myChart, data, color, "circle", 5);
+    addData(myChart, data, color, "circle", 4);
+
+    n_dots += 1;
+    updateInformationP(n_dots, n_centroids, range_x, range_y);
 }
 
 function addNewColor(color, centroid) {
 
     colorsCentroids[centroid] = color;
+}
+
+function updateInformationP(n_dots, n_centroids, range_x, range_y) {
+    pN_dots.innerText = `Number of dots: ${n_dots}`;
+    pN_centroids.innerText = `Number of centroids: ${n_centroids}`;
+    pRange_x.innerText = `Range of data in x: ${range_x}`;
+    pRange_y.innerText = `Range of data in y: ${range_y}`;
 }
