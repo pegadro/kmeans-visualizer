@@ -115,8 +115,6 @@ function start() {
 function draw(grouped_distances) {
     for (const dot in grouped_distances) {
         let set = grouped_distances[dot];
-        //let colorSet = Math.floor(Math.random()*16777215).toString(16);
-
         let colorSet = "";
 
         let centroid = dot.split(',');
@@ -169,7 +167,6 @@ function draw_centroids(centroids_history) {
         colorProvicionalCentroids.push(arrayConfig);
     }
 
-    console.log(colorProvicionalCentroids);
 
     for (let i=0; i < centroids_history.length; i++) {
         for (let j=0; j < centroids_history[i].length; j++) {
@@ -285,8 +282,6 @@ function disabledBtnStart(disabled) {
 function addNewDot(x, y) {
     let centroids = [];
     let distances = [];
-
-    console.log(grouped_distances);
 
     for (const dot in grouped_distances) {
         let dotArray = dot.split(',');

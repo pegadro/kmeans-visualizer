@@ -13,56 +13,64 @@
         <div class="navbar-left">
             <ul>
                 <li>
-                    
+                    <div class="divOptionsNav">
+                        <button class="btn start disabled" id="start" disabled>Start visualization</button>
+                    </div>         
+                </li>
+                <li>
+                    <div class="divOptionsNav">
+                        <button class="btn delete disabled" id="delete" disabled>Delete all dots</button>
+                    </div>
                 </li>
             </ul>
         </div>
     </nav>
 
     <div>
-        <!-- <div id="options">
-            <div class="divOptions">
-                <button class="btn start disabled" id="start" disabled>Start visualization</button>
-            </div>
-            
-            <div class="divOptions">
-                <button class="btn delete disabled" id="delete" disabled>Delete all dots</button>
-            </div>
-
-            <div class="divOptions configuration">
-                <p>Configuration</p>
-                <div class="divInputsConfig">
+        
+        <div id="config">
+            <h2>Configuration</h2>
+            <div class="divInputsConfig">
+                
+                <div class="divInputsConfigIndividual">
+                    <label for="n_dots">Number of dots</label>
                     <input type="number" placeholder="# of dots" id="n_dots" class="inputConfig"/>
-                    <input type="number" placeholder="# of centroids" id="n_centroids" class="inputConfig"/>
-                    <input type="number" placeholder="Range x" id="range_x" class="inputConfig"/>
-                    <input type="number" placeholder="Range y" id="range_y" class="inputConfig"/>
-                    <button id="btnSetUp">Set up</button>
+    
                 </div>
+    
+                <div class="divInputsConfigIndividual">
+                    <label for="n_centroids">Number of centroids</label>
+                    <input type="number" placeholder="# of centroids" id="n_centroids" class="inputConfig"/>
+    
+                </div>
+    
+    
+                <div class="divInputsConfigIndividual">
+                    <label for="range_x">Range of data in x</label>
+                    <input type="number" placeholder="Range x" id="range_x" class="inputConfig"/>
+    
+                </div>
+    
+                <div class="divInputsConfigIndividual">
+                    <label for="range_y">Range of data in y</label>
+                    <input type="number" placeholder="Range y" id="range_y" class="inputConfig"/>
+    
+                </div>      
+                
+                
             </div>
+            <button id="btnSetUp">Set up</button>
+        </div>
 
-            <div class="divOptions newDotDiv">
-                <p>Add a new dot</p>
-                <input type="text" placeholder="5, 2" id="dotInput" disabled>
-            </div>
-
-            <div class="divOptions proccessDiv">
-                <p>Proccess</p>
-                <p>Recalc centroids</p>
-            </div>
-
-        </div> -->
         <div id="options">
-            <div class="divOptions">
-                <button class="btn start disabled" id="start" disabled>Start visualization</button>
-            </div>
-            
-            <div class="divOptions">
-                <button class="btn delete disabled" id="delete" disabled>Delete all dots</button>
-            </div>
-
-            <div class="divOptions newDotDiv">
-                <p>Add a new dot</p>
-                <input type="text" placeholder="5, 2" id="dotInput" disabled>
+            <div class="divOptions information">
+                <p>Information</p>
+                <div class="info">
+                    <p id="pN_dots">Number of dots: 0</p>
+                    <p id="pN_centroids">Number of centroids: 0</p>
+                    <p id="pRange_x">Range of data in x: 0</p>
+                    <p id="pRange_y">Range of data in y: 0</p>
+                </div>
             </div>
 
             <div class="divOptions symbology">
@@ -83,36 +91,12 @@
                 </div>
             </div>
 
-            <div class="divOptions information">
-                <p>Information</p>
-                <div class="info">
-                    <p id="pN_dots">Number of dots: 0</p>
-                    <p id="pN_centroids">Number of centroids: 0</p>
-                    <p id="pRange_x">Range of data in x: 0</p>
-                    <p id="pRange_y">Range of data in y: 0</p>
-                </div>
-            </div>
-
-        </div>
-        <div id="config">
-            <h2>Configuration</h2>
-            <div class="divInputsConfig">
-
-                <label for="">Number of dots</label>
-                <input type="number" placeholder="# of dots" id="n_dots" class="inputConfig" value="100"/>
-
-                <label for="">Number of centroids</label>
-                <input type="number" placeholder="# of centroids" id="n_centroids" class="inputConfig" value="4"/>
-
-                <label for="">Range of data in x</label>
-                <input type="number" placeholder="Range x" id="range_x" class="inputConfig" value="40"/>
-
-                <label for="">Range of data in y</label>
-                <input type="number" placeholder="Range y" id="range_y" class="inputConfig" value="40"/>
-                
-                <button id="btnSetUp">Set up</button>
+            <div class="divOptions newDotDiv">
+                <p>Add a new dot</p>
+                <input type="text" placeholder="5, 2" id="dotInput" disabled>
             </div>
         </div>
+
         <div id="chart">
             <canvas id="myChart" width="400" height="155"></canvas>
         </div>
